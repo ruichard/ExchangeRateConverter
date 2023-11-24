@@ -4,6 +4,7 @@ plugins {
     id("com.google.dagger.hilt.android")
     id("kotlin-kapt")
     id("org.jetbrains.kotlin.plugin.allopen")
+    id("com.google.android.libraries.mapsplatform.secrets-gradle-plugin")
 }
 
 android {
@@ -42,7 +43,12 @@ android {
     buildFeatures {
         viewBinding = true
         compose = true
+        buildConfig = true
     }
+    secrets {
+        defaultPropertiesFileName = "secrets.properties"
+    }
+
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
