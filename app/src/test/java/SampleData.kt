@@ -5,9 +5,9 @@ object SampleData {
     val exchangeRateResponse = ExchangeRateResponse(
         "USD", mapOf(
             "AED" to 3.672475,
-            "JPY" to 69.085468,
+            "JPY" to 110.0,
             "CNY" to 7.8,
-            "ERU" to 322.0
+            "EUR" to 0.85
         )
     )
 
