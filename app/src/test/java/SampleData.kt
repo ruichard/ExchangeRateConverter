@@ -1,5 +1,3 @@
-package com.currency.conversion
-
 import com.exchangerate.converter.data.remote.model.ExchangeRateResponse
 
 object SampleData {

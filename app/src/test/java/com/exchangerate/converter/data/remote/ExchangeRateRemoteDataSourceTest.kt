@@ -1,7 +1,6 @@
-package com.currency.conversion.data.remote
+package com.exchangerate.converter.data.remote
 
-import com.currency.conversion.SampleData
-import com.exchangerate.converter.data.remote.ExchangeRateRemoteDataSource
+import SampleData
 import com.exchangerate.converter.data.remote.api.ExchangeRateApiService
 import com.exchangerate.converter.data.remote.model.ExchangeRateResponse
 import com.exchangerate.converter.util.Constants

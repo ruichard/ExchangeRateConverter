@@ -1,4 +1,4 @@
-package com.currency.conversion.data.remote.api
+package com.exchangerate.converter.data.remote.api
 
 import com.exchangerate.converter.util.Constants
 import com.exchangerate.converter.data.remote.api.ExchangeRateApiService

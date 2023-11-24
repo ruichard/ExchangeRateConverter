@@ -1,12 +1,10 @@
-package com.currency.conversion.data.repository
+package com.exchangerate.converter.data.repository
 
-import com.currency.conversion.SampleData
+import SampleData
 import com.exchangerate.converter.data.local.LocalDataSource
 import com.exchangerate.converter.data.model.ExchangeRate
 import com.exchangerate.converter.data.remote.RemoteDataSource
 import com.exchangerate.converter.data.remote.model.ExchangeRateResponse
-import com.exchangerate.converter.data.repository.ExchangeRateRepository
-import com.exchangerate.converter.data.repository.UpdateChecker
 import com.exchangerate.converter.util.NetworkMonitor
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.first
