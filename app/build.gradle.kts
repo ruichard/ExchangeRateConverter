@@ -48,9 +48,8 @@ android {
     secrets {
         defaultPropertiesFileName = "secrets.properties"
     }
-
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.3"
+        kotlinCompilerExtensionVersion = "1.5.4"
     }
     packaging {
         resources {
@@ -76,8 +75,7 @@ dependencies {
     implementation(libs.lifecycleViewModelSavedState)
     implementation(libs.constraintlayout)
     implementation(platform(libs.composeBom))
-    androidTestImplementation(platform(libs.composeBom))
-    debugImplementation(libs.ui.test.manifest)
+
     kapt(libs.lifecycleCompiler)
     implementation(libs.lifecycleCommonJava8)
     implementation(libs.hiltAndroid)
@@ -86,6 +84,15 @@ dependencies {
     implementation(libs.coroutinesCore)
     implementation(libs.coroutinesAndroid)
     implementation(libs.mmkv)
+
+    implementation(libs.activityCompose)
+    implementation(libs.composeUi)
+    implementation(libs.composeUiGraphics)
+    implementation(libs.composeUiToolingPreview)
+    implementation(libs.composeMaterial3)
+    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    implementation(libs.hilt.navigation.compose)
+
     testImplementation(libs.junit)
     testImplementation(libs.coroutinesTest)
     testImplementation(libs.mockWebServer)
@@ -94,18 +101,7 @@ dependencies {
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.espressoContrib)
     androidTestImplementation(libs.testCore)
-
-    implementation(libs.activityCompose)
-    implementation(platform(libs.composeBom))
-    implementation(libs.composeUi)
-    implementation(libs.composeUiGraphics)
-    implementation(libs.composeUiToolingPreview)
-    implementation(libs.composeMaterial3)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
-    implementation(libs.hilt.navigation.compose)
-
-    androidTestImplementation(platform(libs.composeBom))
     androidTestImplementation(libs.composeUiTestJunit4)
+    debugImplementation(libs.ui.test.manifest)
     debugImplementation(libs.composeUiTooling)
-//    androidTestImplementation(libs.composeUiTestManifest)
 }
