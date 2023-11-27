@@ -6,13 +6,15 @@ import com.exchangerate.converter.data.remote.RemoteDataSource
 import com.exchangerate.converter.data.remote.model.ExchangeRateResponse
 import com.exchangerate.converter.data.remote.model.asEntity
 import com.exchangerate.converter.util.NetworkMonitor
+import com.exchangerate.converter.util.throwCustomException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
 import retrofit2.Response
 import javax.inject.Inject
 import javax.inject.Singleton
-
 
 @Singleton
 class ExchangeRateRepository @Inject constructor(
@@ -26,12 +28,25 @@ class ExchangeRateRepository @Inject constructor(
         if (updateChecker.shouldUpdateData() && networkMonitor.isConnected()) {
             remoteDataSource.getExchangeRate()
                 .map { response -> handleResponse(response) }
+                .catch {
+                    emit(emitLocalExchangeRateOrThrow(it))
+                }
                 .collect { exchangeRate -> emit(exchangeRate) }
         } else {
-            localDataSource.getExchangeRate()
-                .collect { exchangeRate ->
-                    exchangeRate?.let { emit(it) } ?: throw Exception("No data available locally")
-                }
+            emit(emitLocalExchangeRateOrThrow())
+        }
+    }
+
+    private suspend fun emitLocalExchangeRateOrThrow(exception: Throwable? = null): ExchangeRate {
+        return localDataSource.getExchangeRate()
+            .firstOrNull { it != null } ?: throwCustomException(buildErrorMessage(exception), exception)
+    }
+
+    private fun buildErrorMessage(exception: Throwable?): String {
+        return if (exception != null) {
+            "No data available locally after remote fetch failed: ${exception.message}"
+        } else {
+            "No data available locally"
         }
     }
 
@@ -44,9 +59,9 @@ class ExchangeRateRepository @Inject constructor(
                     saveLastUpdateTime(System.currentTimeMillis())
                 }
                 return exchangeRate
-            } ?: throw Exception("Response body is null")
+            } ?: throwCustomException("Response body is null")
         } else {
-            throw Exception("Response error: ${response.errorBody()}")
+            throwCustomException("Response error: ${response.errorBody()}")
         }
     }
 
