@@ -1,6 +1,6 @@
 package com.exchangerate.converter.presentation.viewmodel
 
-import androidx.lifecycle.SavedStateHandle
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.exchangerate.converter.domain.model.Currency
@@ -61,13 +61,13 @@ class CurrencyConversionViewModel @Inject constructor(
                 handleFailure("Currency code is missing.")
             }
 
-            amountText.isEmpty() -> {
+            amountText.isEmpty() && _exchangeRateState.value.isNotEmpty() -> {
                 _exchangeRateState.value = emptyList()
             }
 
             else -> {
                 val amount = amountText.toDoubleOrNull()
-                if (amount == null || amount < 0.0) {
+                if (amount == null || amount <= 0) {
                     handleFailure("Invalid input: Amount must be a positive number.")
                 } else {
                     calculateConvertedAmounts(amount, currencyCode)
