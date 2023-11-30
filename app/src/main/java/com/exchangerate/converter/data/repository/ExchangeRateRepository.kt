@@ -1,5 +1,6 @@
 package com.exchangerate.converter.data.repository
 
+import android.util.Log
 import com.exchangerate.converter.data.local.LocalDataSource
 import com.exchangerate.converter.data.model.ExchangeRate
 import com.exchangerate.converter.data.remote.RemoteDataSource
@@ -8,6 +9,7 @@ import com.exchangerate.converter.data.remote.model.asEntity
 import com.exchangerate.converter.util.NetworkMonitor
 import com.exchangerate.converter.util.throwCustomException
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.FlowCollector
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.flow
@@ -24,30 +26,21 @@ class ExchangeRateRepository @Inject constructor(
     private val networkMonitor: NetworkMonitor,
 ) {
 
-    fun getLatestRates(): Flow<ExchangeRate> = flow {
+    suspend fun getLatestRates(): Flow<ExchangeRate> = flow {
         if (updateChecker.shouldUpdateData() && networkMonitor.isConnected()) {
             remoteDataSource.getExchangeRate()
                 .map { response -> handleResponse(response) }
                 .catch {
-                    emit(emitLocalExchangeRateOrThrow(it))
+                    emit(getDataFromLocal("No data available locally after remote fetch failed: ${it.message}"))
                 }
                 .collect { exchangeRate -> emit(exchangeRate) }
         } else {
-            emit(emitLocalExchangeRateOrThrow())
+            emit(getDataFromLocal("No data available locally"))
         }
     }
 
-    private suspend fun emitLocalExchangeRateOrThrow(exception: Throwable? = null): ExchangeRate {
-        return localDataSource.getExchangeRate()
-            .firstOrNull { it != null } ?: throwCustomException(buildErrorMessage(exception), exception)
-    }
-
-    private fun buildErrorMessage(exception: Throwable?): String {
-        return if (exception != null) {
-            "No data available locally after remote fetch failed: ${exception.message}"
-        } else {
-            "No data available locally"
-        }
+    private suspend fun getDataFromLocal(message: String): ExchangeRate {
+        return localDataSource.getExchangeRate().firstOrNull() ?: throw Exception(message)
     }
 
     private suspend fun handleResponse(response: Response<ExchangeRateResponse>): ExchangeRate {
