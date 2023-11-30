@@ -35,7 +35,7 @@ import com.exchangerate.converter.presentation.ui.theme.ExchangeRateConverterThe
 import com.exchangerate.converter.presentation.viewmodel.CurrencyConversionViewModel
 
 @Composable
-fun HomeScreen(currencyConversionViewModel: CurrencyConversionViewModel = hiltViewModel()) {
+fun MainScreen(currencyConversionViewModel: CurrencyConversionViewModel = hiltViewModel()) {
     val currencies by currencyConversionViewModel.currencies.collectAsState()
     val exchangeRateState by currencyConversionViewModel.exchangeRateState.collectAsState()
     var selectedCurrency by remember { mutableStateOf("") }
@@ -178,6 +178,6 @@ fun ExchangeRateList(currencies: List<Currency>) {
 @Composable
 fun PreviewConversation() {
     ExchangeRateConverterTheme {
-        HomeScreen()
+        MainScreen()
     }
 }
