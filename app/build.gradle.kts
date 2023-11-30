@@ -69,6 +69,7 @@ dependencies {
     implementation(libs.retrofit)
     implementation(libs.logging.interceptor)
     implementation(libs.converterGson)
+    implementation(libs.converter.moshi)
     implementation(libs.lifecycleViewModelKtx)
     implementation(libs.lifecycleLiveDataKtx)
     implementation(libs.lifecycleRuntimeKtx)

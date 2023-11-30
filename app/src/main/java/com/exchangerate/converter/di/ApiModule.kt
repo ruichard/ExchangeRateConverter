@@ -8,8 +8,10 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
+import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
 @Module
@@ -26,11 +28,11 @@ object ApiModule {
 
     @Singleton
     @Provides
-    fun provideConverterFactory() = GsonConverterFactory.create()
+    fun provideConverterFactory() : Converter.Factory = MoshiConverterFactory.create()
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient, converterFactory: GsonConverterFactory): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient, converterFactory: Converter.Factory): Retrofit = Retrofit.Builder()
         .addConverterFactory(converterFactory)
         .client(okHttpClient)
         .baseUrl(Constants.OPENEXCHANGERATES_BASE_URL)
