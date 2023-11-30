@@ -67,9 +67,7 @@ class CurrencyConversionViewModel @Inject constructor(
 
             else -> {
                 val amount = amountText.toDoubleOrNull()
-                if (amount == null || amount <= 0) {
-                    handleFailure("Invalid input: Amount must be a positive number.")
-                } else {
+                if (amount != null && amount > 0) {
                     calculateConvertedAmounts(amount, currencyCode)
                 }
             }
