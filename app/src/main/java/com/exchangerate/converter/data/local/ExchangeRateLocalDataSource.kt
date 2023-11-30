@@ -15,11 +15,11 @@ class ExchangeRateLocalDataSource @Inject constructor(private val mmkvManager: M
         flow { emit(mmkvManager.getObject<ExchangeRate>(Constants.MMKV_EXCHANGE_RATE)) }
 
     override suspend fun saveExchangeRate(rates: ExchangeRate) {
-        mmkvManager.putObject(Constants.MMKV_EXCHANGE_RATE, rates)
+        mmkvManager.put(Constants.MMKV_EXCHANGE_RATE, rates)
     }
 
     override suspend fun saveLastUpdateTime(time: Long) {
-        mmkvManager.putLong(Constants.MMKV_LAST_UPDATE_TIME, time)
+        mmkvManager.put(Constants.MMKV_LAST_UPDATE_TIME, time)
     }
 
     override fun getLastUpdateTime(): Flow<Long> =

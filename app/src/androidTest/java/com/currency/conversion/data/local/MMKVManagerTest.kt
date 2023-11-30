@@ -17,14 +17,14 @@ class MMKVManagerTest {
 
     @Test
     fun testPutAndGetLong() {
-        mmkvManager.putLong("key", 10L)
+        mmkvManager.put("key", 10L)
         Assert.assertEquals(10L, mmkvManager.getLong("key", 0L))
     }
 
     @Test
     fun testPutAndGetObject() {
         val obj = Person("Ruichard", 30)
-        mmkvManager.putObject("obj", obj)
+        mmkvManager.put("obj", obj)
 
         val person = mmkvManager.getObject<Person>("obj")
         Assert.assertEquals(obj.name, person!!.name)

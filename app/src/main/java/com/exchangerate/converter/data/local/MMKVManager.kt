@@ -14,11 +14,11 @@ class MMKVManager @Inject constructor(@ApplicationContext context: Context) {
         MMKV.initialize(context)
     }
 
-    fun putObject(key: String, obj: Any) {
+    fun put(key: String, obj: Any) {
         MMKV.defaultMMKV().encode(key, Gson().toJson(obj))
     }
 
-    fun putLong(key: String, value: Long) {
+    fun put(key: String, value: Long) {
         MMKV.defaultMMKV().encode(key, value)
     }
 
