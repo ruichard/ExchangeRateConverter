@@ -1,6 +1,5 @@
 package com.exchangerate.converter.di
 
-import com.exchangerate.converter.data.remote.api.ExchangeRateApiService
 import com.exchangerate.converter.util.Constants
 import dagger.Module
 import dagger.Provides
@@ -10,7 +9,6 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Converter
 import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
 
